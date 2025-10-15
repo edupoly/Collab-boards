@@ -1,0 +1,52 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.loginPage {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginPage .card {
+  min-width: 350px;
+  background-color: #f2f2f2;
+}
+
+.login-btn {
+  background-color: #313388;
+}
+
+.login-btn:hover {
+  background-color: #3436ab;
+}
+
+.signup-btn {
+  background-color: #313388;
+}
+
+.sign-btn:hover {
+  background-color: #3436ab;
+}
+
+.loginPage > .card {
+  box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.3);
+  background-color: #fff;
+}
+
+@media (max-width: 1023px) {
+  .loginPage {
+    height: calc(100vh - 150px);
+  }
+}
