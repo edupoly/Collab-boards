@@ -5,7 +5,6 @@ import { useCreateboardMutation, useGettodolistQuery, useLazyGettodolistQuery } 
 function Slidebar(){
      const [change,setchange]  = useState()
      const {isLoading,data} = useGettodolistQuery()
-     console.log(data)
     const [createfn]=useCreateboardMutation()
     const iref= useRef()
     const [lazyfn]=useLazyGettodolistQuery()
@@ -17,7 +16,6 @@ function Slidebar(){
        function colorchange(p){
         setchange(p)
         lazyfn()
-        console.log(p)
              
        }
     return(

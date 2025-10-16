@@ -28,9 +28,9 @@ const Signup = () => {
         .required("Confirm your password"),
     }),
     onSubmit: async (values) => {
-      console.log("values",values);
+      // console.log("values",values);
       let signup = await register(values)
-      console.log("signup",signup);
+      // console.log("signup",signup);
 
       if (signup?.data?.user) {
         navigate('/login')

@@ -4,8 +4,8 @@ import { useGettodolistQuery } from "../services/boardapi";
 
 function Boardtodos() {
   const { isLoading, data } = useGettodolistQuery();
-  console.log("boarddata", data);
-  console.log(isLoading, data);
+  // console.log("boarddata", data);
+  // console.log(isLoading, data);
 
   return (
     <div className="vh-100">

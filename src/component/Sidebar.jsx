@@ -5,7 +5,7 @@ import { useCreateboardMutation, useGettodolistQuery, useLazyGettodolistQuery } 
 function Sidebar() {
     const [change, setchange] = useState()
     const { isLoading, data } = useGettodolistQuery()
-    console.log(data)
+    // console.log(data)
     const [createfn] = useCreateboardMutation()
     const iref = useRef()
     const [lazyfn] = useLazyGettodolistQuery()
@@ -17,7 +17,7 @@ function Sidebar() {
     function colorchange(p) {
         setchange(p)
         lazyfn()
-        console.log(p)
+        // console.log(p)
 
     }
     return (

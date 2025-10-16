@@ -26,13 +26,10 @@ function Statestodos({ tododata, type,id }) {
   function handleDragStart(ev, tid) {
     
     ev.dataTransfer.setData("xyz", JSON.stringify({ title: ev.target.id, teeid: tid }))
-    console.log(tid)
   }
   function handleDrop(ev) {
     var { title, teeid } = JSON.parse(ev.dataTransfer.getData("xyz"))
-    console.log(title, teeid)
 
-    console.log(ev.target);
     if (ev.target.tagName == "LI") {
       
       ev.target.parentElement.appendChild(document.getElementById(title))
@@ -59,18 +56,15 @@ function Statestodos({ tododata, type,id }) {
     settid(t)
 
   }
-  console.log(todolistid)
   async function updatetodo() {
     const tmp = JSON.parse(JSON.stringify(tododata))
     //  tmp.todolist.splice(index,1,{task:document.getElementById('d2').value,stats:type,id:tid})
     const todos = tmp.todolist.map((j) => {
       if (j.id == todolistid) {
-        console.log(todolistid)
         j.task = document.getElementById('d2').value
       }
       return j
     })
-    console.log(todos)
     tmp.todolist = todos
     await updatefn(tmp)
 

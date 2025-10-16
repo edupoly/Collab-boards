@@ -27,10 +27,11 @@ const Login = () => {
     }),
     onSubmit: async (values) => {
       let login = await loginUser(values)
-      console.log("loginlogin",login);
+      // console.log("loginlogin",login);
       
       if (login?.data?.user) {
-        localStorage?.setItem('token', login?.data?.token)
+        localStorage?.setItem('token', login?.data?.token);
+        localStorage?.setItem('username',login?.data?.user?.username);
         dispatch(setUser(login?.data?.user));
         navigate('/')
       }

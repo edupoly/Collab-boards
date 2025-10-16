@@ -2,11 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDeleteboardMutation, useLazyGettodolistQuery } from "../services/boardapi";
 function Cardtodolist({todos}){
-   console.log("toooooo",todos)
   const [deletefn]=useDeleteboardMutation()
      const [lazyfn] =useLazyGettodolistQuery()
  async function deleteobj(){
-    console.log(todos.id)
    await  deletefn(todos.id)
    lazyfn().then((r)=>{
       console.log(r)

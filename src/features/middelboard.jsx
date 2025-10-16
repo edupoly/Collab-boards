@@ -1,20 +1,21 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import Slidebar from "./slidebar";
 import './style.css'
 import Sidebar from "../component/Sidebar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useGetProfileQuery } from "../services/userApi";
+import { clearUser } from "../services/userSlice";
 
 function Middelboard() {
-  const { data, isloading } = useGetProfileQuery(localStorage.getItem('token'))
-  const userDetails = useSelector((state) => state.user);
-
-
-  useEffect(()=>{
-    console.log("userDetails",userDetails);
-    
-  },[userDetails])
+  const userDetails = useSelector((state) => state.userS?.userInfo);
+  let navigate=useNavigate();
+  let dispatch=useDispatch();
+    function logout(){
+        localStorage.clear();
+        dispatch(clearUser());
+        navigate('/login');
+    }   
     return (
         <div className="mainDiv">
             <div className="bg-secondary d-flex justify-content-between align-items-center px-3 text-light " style={{ background: "linear-gradient(135deg, rgb(30, 60, 114) 0%, rgb(42, 82, 152) 100%)" }}>
@@ -23,9 +24,8 @@ function Middelboard() {
                 </Link>
                 <i className="bi bi-list fs-3 d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"></i>
                 <div className="d-flex gap-3">
-                    <span>Hi, <h4 className="text-capitalize">{userDetails?.username}</h4></span>
-                    <Link className="btn btn-info text-light fw-semibold" to={'/login'}>Login</Link>
-                    <Link className="btn btn-success text-light fw-semibold" to={'/signup'}>Signup</Link>
+                    <span className="d-flex align-items-center gap-2 fs-4">Hi, <h4 className="text-capitalize mb-0">{userDetails?.username}</h4></span>
+                    <button className="btn btn-danger fw-semibold" onClick={()=>{logout()}}>Logout</button>
                 </div>
             </div>
             <div className="m-0 d-flex">
