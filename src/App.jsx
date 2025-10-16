@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { setUser } from './services/userSlice';
 import { useGetProfileQuery, useLazyGetProfileQuery } from './services/userApi';
 
@@ -10,16 +10,21 @@ function App() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {data , isLoading} = useGetProfileQuery(localStorage.getItem('token'))
+  const userDetails = useSelector((state) => state.userS?.userInfo);
+  const  [getnewData,{data,isLoading}]= useLazyGetProfileQuery()
   // console.log(xyz);
   useEffect(() => {
     // console.log(data);
-    if(data?.message=='Token valid'){
-        dispatch(setUser(data?.user));
+    if(!userDetails){
+      getnewData(localStorage.getItem('token'));
+      if(data?.message=='Token valid'){
+          dispatch(setUser(data?.user));
+      }
+      else{
+        navigate('/login')
+      } 
     }
-    /* else{
-      navigate('/login')
-    } */
+    
 
   }, [isLoading]);
 
