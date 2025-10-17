@@ -2,38 +2,38 @@ import React, { useState } from "react";
 import './style.css'
 import { useAddnewtodosMutation, useDeletetaskMutation, useLazyGettodolistQuery, useLazyGettodosbyidQuery, useUpdatatodolistMutation } from "../services/boardapi";
 
-function Statestodos({ tododata, type,id }) {
+function Statestodos({ tododata, type, id }) {
   const [updatadragfn] = useAddnewtodosMutation()
   const [deletetodofn] = useDeletetaskMutation()
   const [updatefn] = useUpdatatodolistMutation()
-  const [lazyfn]=useLazyGettodolistQuery()
-  const [tolazyfn]=useLazyGettodosbyidQuery()
+  const [lazyfn] = useLazyGettodolistQuery()
+  const [tolazyfn] = useLazyGettodosbyidQuery()
 
   const [index, setindex] = useState('')
   const [todolistid, settid] = useState('')
 
 
-   function deletetod(i) {
+  function deletetod(i) {
 
     const tmp = [...tododata.todolist]
     tmp.splice(i, 1)
-    deletetodofn({ ...tododata, todolist: tmp }).then((res)=>{
-        tolazyfn(id).then((s)=>{
+    deletetodofn({ ...tododata, todolist: tmp }).then((res) => {
+      tolazyfn(id).then((s) => {
         console.log(s)
-       })
+      })
     })
   }
   function handleDragStart(ev, tid) {
-    
+
     ev.dataTransfer.setData("xyz", JSON.stringify({ title: ev.target.id, teeid: tid }))
   }
   function handleDrop(ev) {
     var { title, teeid } = JSON.parse(ev.dataTransfer.getData("xyz"))
 
     if (ev.target.tagName == "LI") {
-      
+
       ev.target.parentElement.appendChild(document.getElementById(title))
-    }else if(ev.target.tagName == "SPAN"){
+    } else if (ev.target.tagName == "SPAN") {
       ev.target.parentElement.parentElement.appendChild(document.getElementById(title))
 
     } else {
@@ -42,7 +42,7 @@ function Statestodos({ tododata, type,id }) {
 
     const tmp = JSON.parse(JSON.stringify(tododata))
     var todss = tmp.todolist.map((d) => {
-      if (d.id == teeid) {
+      if (d.task == title.slice(0,-1)) {
         d.stats = type
       }
       return d
@@ -75,26 +75,47 @@ function Statestodos({ tododata, type,id }) {
 
     <div className="col">
 
-      <div className="card fs-5" style={{  minHeight:"150px", boxShadow:'0 4px 8px rgba(0, 0, 0, 0.308)' }}>
+      <div className="card fs-5" style={{ minHeight: "150px", boxShadow: '0 4px 8px rgba(0, 0, 0, 0.308)' }}>
         <div className="card-header bg-primary text-white p-3">
-          <b>Status :</b> {type.toUpperCase()}
+          <b>{type.toUpperCase()}</b>
         </div>
 
-        <ul className="list-group list-group-flush  border border-2 scrollableDiv" style={{ background: '#ececec',minHeight:"85px"}} onDragOver={(ev) => { ev.preventDefault() }} onDrop={(ev) => { handleDrop(ev) }}>
+        <ul className="list-group list-group-flush  border border-2 scrollableDiv" style={{ background: '#ececec', minHeight: "85px" }} onDragOver={(ev) => { ev.preventDefault() }} onDrop={(ev) => { handleDrop(ev) }}>
           {
             tododata?.todolist.map((r, i) => {
+              let bgcolor = "";
+              let prior;
+
               if (r.stats !== type) {
                 return null
               }
               else {
-                return <li key={i} className="list-group-item m-2 p-3 d-flex shadow rounded text-dark justify-content-between fs-5"
-                 id={`${r.task}${i}`} 
-                draggable="true" 
-                onDragStart={(ev) => handleDragStart(ev, r.id)} 
+                console.log(r.priority);
+                switch (r.priority) {
+                  case "1":
+                    bgcolor = "bg-secondary";
+                    prior="Low";
+                    break;
+                  case "2":
+                    bgcolor = "bg-warning";
+                    prior="Medium";
+                    break;
+                  case "3":
+                    bgcolor = "bg-danger";
+                    prior="High";
+                    break;
+                  default:
+                    bgcolor = "bg-primary"
+                }
+                return <li key={i} className={`list-group-item m-2 p-3 d-flex shadow rounded text-dark justify-content-between fs-5 ${bgcolor}`}
+                  id={`${r.task}${i}`}
+                  draggable="true"
+                  onDragStart={(ev) => handleDragStart(ev, r.id)}
                 >
-                  <span className="text-truncate mb-0" title={r.task.toUpperCase()}>{r.task.toUpperCase()}</span>
-                  <div ><i className="bi bi-trash3 text-warning " onClick={() => deletetod(i)}  ></i>
-                    {/* <i className="bi bi-pencil-square " data-bs-toggle="modal" data-bs-target="#exampleModal22" onClick={() => { edit(r.task, r.id) }} ></i> */}
+                  <span className="text-truncate mb-0 text-white" title={r.task.toUpperCase()}>{r.task.toUpperCase()}</span>
+                  <span className="text-truncate mb-0 text-white" title={r.priority.toUpperCase()}>{prior}</span>
+                  <div ><i className="bi bi-trash3 text-white" onClick={() => deletetod(i)}  ></i>
+                    {/* <i className="bi bi-pencil-square text-white" data-bs-toggle="modal" data-bs-target="#exampleModal22" onClick={() => { edit(r.task, r.id) }} ></i> */}
                     <div className="modal fade" id="exampleModal22" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div className="modal-dialog">
                         <div className="modal-content">

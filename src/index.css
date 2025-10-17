@@ -40,9 +40,49 @@ code {
   background-color: #3436ab;
 }
 
-.loginPage > .card {
+.loginPage>.card {
   box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.3);
   background-color: #fff;
+}
+
+.form-group {
+  position: relative;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.5rem 0.5rem 0.5rem 0.8rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: #000;
+  outline: none;
+}
+
+.form-label {
+  position: absolute;
+  top: 50%;
+  left: 0.5rem;
+  transform: translateY(-50%);
+  background: white;
+  padding: 0 0.25rem;
+  color: #777;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: 0.2s ease all;
+}
+
+.form-input:focus+.form-label,
+.form-input:not(:placeholder-shown)+.form-label {
+  top: 0%;
+  left: 0.5rem;
+  font-size: 0.75rem;
+  color: #2563eb;
+  /* Blue */
+  transform: translateY(-50%);
 }
 
 @media (max-width: 1023px) {

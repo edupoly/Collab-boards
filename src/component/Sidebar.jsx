@@ -52,7 +52,7 @@ function Sidebar() {
                     </div>
                 </div>
             </div>
-            <div className="accordion mb-4" id="sharedAccordion">
+            <div className="accordion mb-4 p-2" id="sharedAccordion">
                 <div className="accordion-item">
                     <h2 className="accordion-header" id="sharedHeadingOne">
                         <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sharedCollapseOne" aria-expanded="true" aria-controls="sharedCollapseOne">
@@ -81,12 +81,12 @@ function Sidebar() {
                     </div>
                 </div>
             </div>
-            <ul>
+            <ul style={{padding:0}} className="text-center">
                 {
                     !isLoading && data?.map((f, i) => {
                         return (
                             <Link key={i} className="shadow" style={{ textDecoration: "none", fontSize: '20px', color: 'white', }} to={`/todos/${f.id}`}>
-                                <li className=" m-2 rounded fw-bold" style={{ background: change == f.id ? 'blue' : '', listStyle: 'none' }} onClick={() => { colorchange(f.id) }} >{f.title.toUpperCase()}</li></Link>
+                                <li className="fw-bold" style={{ background: change == f.id ? '#0fa3e3ff' : '', listStyle: 'none' }} onClick={() => { colorchange(f.id) }} >{f.title.toUpperCase()}</li></Link>
                         )
                     })
                 }
