@@ -10,23 +10,25 @@ function App() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userDetails = useSelector((state) => state.userS?.userInfo);
-  const  [getnewData,{data,isLoading}]= useLazyGetProfileQuery()
+  let token = localStorage.getItem('token');
+  const  {data,isLoading}= useGetProfileQuery(token)
   // console.log(xyz);
   useEffect(() => {
     // console.log(data);
-    if(!userDetails){
-      getnewData(localStorage.getItem('token'));
-      if(data?.message=='Token valid'){
-          dispatch(setUser(data?.user));
-      }
-      else{
-        navigate('/login')
-      } 
+    if(!token){
+        navigate('/login');
+        return;
+    }
+    if(isLoading){return};
+    if(data){
+      dispatch(setUser(data?.user));
+    }
+    else{
+      navigate('/login')
     }
     
 
-  }, [isLoading]);
+  }, [token,isLoading,data]);
 
   return (
     <Outlet></Outlet>
