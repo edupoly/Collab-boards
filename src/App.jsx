@@ -12,9 +12,7 @@ function App() {
   const navigate = useNavigate();
   let token = localStorage.getItem('token');
   const  {data,isLoading}= useGetProfileQuery(token)
-  // console.log(xyz);
   useEffect(() => {
-    // console.log(data);
     if(!token){
         navigate('/login');
         return;
