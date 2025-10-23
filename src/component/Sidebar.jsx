@@ -55,7 +55,7 @@ function Sidebar() {
             <div className="accordion mb-4 p-2" id="sharedAccordion">
                 <div className="accordion-item">
                     <h2 className="accordion-header" id="sharedHeadingOne">
-                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sharedCollapseOne" aria-expanded="true" aria-controls="sharedCollapseOne">
+                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sharedCollapseOne" aria-expanded="false" aria-controls="sharedCollapseOne">
                             Shared with you
                         </button>
                     </h2>
@@ -75,13 +75,21 @@ function Sidebar() {
                     </h2>
                     <div id="sharedCollapseTwo" className="accordion-collapse collapse" data-bs-parent="#sharedAccordion">
                         <div className="accordion-body">
-                            <strong>This is the second shared item’s accordion body.</strong>{" "}
-                            Additional shared content goes here.
+                            <ul style={{ padding: 0 }} className="text-center">
+                                {
+                                    !isLoading && data?.map((f, i) => {
+                                        return (
+                                            <Link key={i} className="shadow" style={{ textDecoration: "none", fontSize: '20px'}} to={`/todos/${f.id}`}>
+                                                <li className="fw-bold" style={{ background: change == f.id ? '#8dd2f0ff' : '', listStyle: 'none' }} onClick={() => { colorchange(f.id) }} >{f.title.toUpperCase()}</li></Link>
+                                        )
+                                    })
+                                }
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <ul style={{padding:0}} className="text-center">
+            {/* <ul style={{ padding: 0 }} className="text-center">
                 {
                     !isLoading && data?.map((f, i) => {
                         return (
@@ -90,7 +98,7 @@ function Sidebar() {
                         )
                     })
                 }
-            </ul>
+            </ul> */}
         </div>
 
     )

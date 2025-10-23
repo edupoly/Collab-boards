@@ -4,40 +4,46 @@ import './style.css'
 import { useAddnewtodosMutation, useGettodosbyidQuery, useLazyGettodosbyidQuery, useUpdatatodolistMutation } from "../services/boardapi";
 import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
+import { v4 as uuidv4 } from 'uuid';
 
 function Todolisttodos() {
   const [index, setindex] = useState()
-  let taskref = useRef();
-  let desref = useRef();
-  let priref = useRef();
-  let today = new Date();
-  let newTaskForm = useFormik({
-    initialValues: {
-      task: "",
-      description: "",
-      priority: "",
-      stats: "todo",
-      createdAt: today,
-    },
-    onSubmit: (values) => {
-      const tmp = JSON.parse(JSON.stringify(data))
-      tmp.todolist.push(values);
-      
-      addtodosfn(tmp).then(() => {
-        lazytodofn(id)
-      })
-      newTaskForm.resetForm();
-    }
-  })
-  // console.log(Date.now());
-  // console.log("Asf");
-
   const { id } = useParams()
   const { isLoading, data } = useGettodosbyidQuery(id)
   //  console.log("dta",data)
   const [addtodosfn] = useAddnewtodosMutation()
   const [lazytodofn] = useLazyGettodosbyidQuery()
   const [updatefn] = useUpdatatodolistMutation()
+  let taskref = useRef();
+  let desref = useRef();
+  let priref = useRef();
+  let today = new Date();
+  let newTaskForm = useFormik({
+    initialValues: {
+      id: uuidv4(),
+      task: "",
+      description: "",
+      priority: "",
+      stats: "todo",
+      createdAt: today.getDate() +"-"+ today.getMonth() +"-"+ today.getFullYear(),
+    },
+    onSubmit: (values) => {
+
+      const tmp = JSON.parse(JSON.stringify(data))
+      tmp.todolist.push(values);
+
+      addtodosfn(tmp).then(() => {
+        lazytodofn(id)
+      })
+      // console.log(values);
+      newTaskForm.resetForm();
+      newTaskForm.setFieldValue('id',uuidv4());
+    }
+  })
+  // console.log(Date.now());
+  // console.log("Asf");
+
+
 
   function edit(p, i) {
     document.getElementById("d2").value = p
@@ -103,7 +109,7 @@ function Todolisttodos() {
     <div className="container vh-100">
       <div className="d-flex justify-content-center ">
         <h1 className="text-center m-2">{data?.title.toUpperCase()}</h1>
-        <button type="button" className="btn btn-primary m-2 " data-bs-toggle="modal" data-bs-target="#staticBackdrop">New Task</button>
+        <button type="button" className="btn btn-primary m-2 " data-bs-toggle="modal" data-bs-target="#staticBackdrop1">New Task</button>
       </div>
 
       <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 row-gap-2 mt-4 mx-auto justify-content-center justify-content-md-center justify-content-lg-center px-2">
@@ -115,7 +121,7 @@ function Todolisttodos() {
 
       {/* <!-- Modal --> */}
 
-      <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div className="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <form onSubmit={newTaskForm.handleSubmit}>
@@ -151,6 +157,7 @@ function Todolisttodos() {
           </div>
         </div>
       </div>
+
     </div >
 
 
